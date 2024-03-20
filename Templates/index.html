@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancer Diagnosis Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .explanations, .data-head-link {
+            margin-top: 20px;
+        }
+        .data-head-link {
+            display: block;
+            text-decoration: none;
+            color: blue;
+        }
+        .data-head-link:hover {
+            text-decoration: underline;
+        }
+        .prediction-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .benign {
+            color: green;
+        }
+        .malignant {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tumor Classification Prediction</h2>
+    <form action="/predict" method="post">
+        <div class="form-group">
+            <label for="clump_thickness">Clump Thickness:</label>
+            <input type="text" id="clump_thickness" name="clump_thickness" required>
+        </div>
+
+        <div class="form-group">
+            <label for="uniformity_cell_size">Uniformity of Cell Size:</label>
+            <input type="text" id="uniformity_cell_size" name="uniformity_cell_size" required>
+        </div>
+
+        <div class="form-group">
+            <label for="uniformity_cell_shape">Uniformity of Cell Shape:</label>
+            <input type="text" id="uniformity_cell_shape" name="uniformity_cell_shape" required>
+        </div>
+
+        <div class="form-group">
+            <label for="marginal_adhesion">Marginal Adhesion:</label>
+            <input type="text" id="marginal_adhesion" name="marginal_adhesion" required>
+        </div>
+
+        <div class="form-group">
+            <label for="single_epithelial_cell_size">Single Epithelial Cell Size:</label>
+            <input type="text" id="single_epithelial_cell_size" name="single_epithelial_cell_size" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bare_nuclei">Bare Nuclei:</label>
+            <input type="text" id="bare_nuclei" name="bare_nuclei" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bland_chromatin">Bland Chromatin:</label>
+            <input type="text" id="bland_chromatin" name="bland_chromatin" required>
+        </div>
+
+        <div class="form-group">
+            <label for="normal_nucleoli">Normal Nucleoli:</label>
+            <input type="text" id="normal_nucleoli" name="normal_nucleoli" required>
+        </div>
+
+        <div class="form-group">
+            <label for="mitoses">Mitoses:</label>
+            <input type="text" id="mitoses" name="mitoses" required>
+        </div>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+        <div class="prediction-result {% if 'Benign' in prediction_text %}benign{% else %}malignant{% endif %}">
+            <h3>{{ prediction_text }}</h3>
+            <!-- Optional: Additional explanation or recommendation -->
+        </div>
+    {% endif %}
+
+    <div class="explanations">
+        <h4>Feature Importance Explanations:</h4>
+        {% for feature, explanation in feature_explanations.items() %}
+            <p><b>{{ feature }}:</b> {{ explanation }}</p>
+        {% endfor %}
+    </div>
+
+    
+</body>
+</html>
